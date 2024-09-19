@@ -1,6 +1,5 @@
 import React from 'react'
 import { useState } from 'react'
-import { decryptPassword } from '../components/encrypt.mjs';
 import { loginUser } from '../components/addUser.mjs';
 
 const Login = (props) => {
