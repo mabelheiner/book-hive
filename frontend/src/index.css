@@ -1,4 +1,4 @@
-body {
+body, button {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -13,11 +13,16 @@ code {
 
 body {
   background-color: lightyellow;
+  margin: 0;
+}
+
+body section {
+  padding: .5em;
 }
 
 
 button {
   background-color: tan;
-  border: 1px solid black;
   border-radius: 10%;
+  padding: .5em;
 }
