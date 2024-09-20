@@ -22,7 +22,7 @@ const Home = () => {
         <header>
             <h1>Welcome to Book Hive!</h1>
             <p>🐝<i>Just buzzzzzzzing about books!</i>🐝</p>
-            <p>Want to leave your own reviews? <button><a href="/login">Login</a></button></p>
+            <button className='login-button'><a href="/login">Login</a></button>
         </header>
         <section className='description-card'>
             <h2>What We Believe</h2>
