@@ -7,6 +7,8 @@ const BookDetails = () => {
     const [book, setBook] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    const [more, setMore] = useState(false);
+
     const bookDescription = useRef(null);
 
     const params = useParams()
@@ -48,9 +50,28 @@ const BookDetails = () => {
         return authorList;
       }
 
-    function displayDescription() {
-        console.log('Reference', bookDescription.current.style)
-        bookDescription.current.style = 'fit-content';
+    function displayDescription(description) {
+        let displayDescription = "";
+        let count = 0;
+        if (more == true) {
+            return description
+        }
+
+        else {
+            for (let index in description) {
+                displayDescription += description[index];
+                if (description[index] == '.') {
+                    count += 1
+                }
+                
+                if (count > 10) {
+                    break
+                }
+            }
+
+            console.log('Count', count)
+            return displayDescription;
+        }
     }
 
   return (
@@ -60,8 +81,8 @@ const BookDetails = () => {
             
         <p>{book.volumeInfo.title} by <i>{displayAuthors(book.volumeInfo.authors)}</i></p>
         <StarRating rating={book.volumeInfo.averageRating}/>
-        <p className='book-description' ref={bookDescription}>Description: {book.volumeInfo.description}</p>
-        <p>... <button onClick={displayDescription}>See More</button></p>
+        <p>Description: {displayDescription(book.volumeInfo.description)} ... </p> 
+        <button onClick={() => setMore(!more)}>See {more ? 'Less' : 'More'}</button>
     </div>
   )
 }
