@@ -1,9 +1,67 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useLocation, useParams } from 'react-router-dom';
 
 const SearchBook = () => {
     const [books, setBooks] = useState([]);
     const [title, setTitle] = useState('');
     const [author, setAuthor] = useState('');
+
+    const location = useLocation();
+
+    
+
+    function fetchParams() {
+      try {       
+        
+        const params = new URLSearchParams(location.search);
+        const newTitle = decodeURIComponent(params.get('title'));
+        const newAuthor = decodeURIComponent(params.get('author'));
+
+        console.log('Information received:', newTitle, `\n`, newAuthor)
+
+        setTitle(newTitle);
+        setAuthor(newAuthor);
+
+        searchBook(newTitle, newAuthor);
+
+      } catch (error) {
+        
+      }
+    }
+
+    useEffect(() => {
+        fetchParams();
+    }, [])
+
+    async function searchBook(title, author) {
+      if (author != "" && title != ""){
+        console.log(`https://www.googleapis.com/books/v1/volumes?q=intitle:${title}&inauthor:${author}&saleability=FOR_SALE&filter=ebooks`)
+        const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=intitle:${title}&inauthor:${author}&saleability=FOR_SALE&&filter=ebooks`);
+        const data = await response.json()
+        console.log('data', data)
+        setBooks(data.items);
+      }
+
+      else if (author != "") {
+        console.log(`https://www.googleapis.com/books/v1/volumes?q=inauthor:${author}&saleability=FOR_SALE&filter=ebooks`)
+        const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=inauthor:${author}&saleability=FOR_SALE&&filter=ebooks`);
+        const data = await response.json()
+        console.log('data', data)
+        setBooks(data.items);
+      }
+
+      else if (title != "") {
+        console.log(`https://www.googleapis.com/books/v1/volumes?q=intitle:${title}&saleability=FOR_SALE&filter=ebooks`)
+        const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=intitle:${title}&saleability=FOR_SALE&&filter=ebooks`);
+        const data = await response.json()
+        console.log('data', data)
+        setBooks(data.items);
+      }
+
+      else {
+        setBooks(null)
+      }
+    }
 
     async function searchBookByTitle(e) {
       e.preventDefault();
@@ -73,9 +131,9 @@ const SearchBook = () => {
     <>
     <form onSubmit={searchBookByTitle}>
         <label htmlFor="title">Title</label>
-        <input type="text" name="title" id="title" onChange={(e) => setTitle(e.target.value)}/> 
+        <input type="text" name="title" id="title" placeholder={title} onChange={(e) => setTitle(e.target.value)}/> 
         <label htmlFor="author">Author</label>
-        <input type="text" name='author' id='author' onChange={(e) => setAuthor(e.target.value)}/>
+        <input type="text" name='author' id='author' placeholder={author} onChange={(e) => setAuthor(e.target.value)}/>
         <button>Find Book</button>
     </form>
     {books ? (

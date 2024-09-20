@@ -9,6 +9,7 @@ import AddBook from './pages/AddBook';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import BookDetails from './pages/BookDetails';
+import SearchBook from './pages/SearchBook';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -19,6 +20,7 @@ root.render(
         <Route path='/login' element={<Login />}/>
         <Route path='/signup' element={<SignUp />}/>
         <Route path='/signup/:username' element={<SignUp />}/>
+        <Route path='/search' element={<SearchBook />}/>
         <Route path='/addBook/:id' element={<AddBook />}/>
         <Route path='/book/details/:book' element={<BookDetails />}></Route>
 
