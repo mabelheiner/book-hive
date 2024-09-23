@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import BookDetails from './pages/BookDetails';
 import SearchBook from './pages/SearchBook';
+import UserHome from './pages/UserHome';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -17,6 +18,7 @@ root.render(
     <BrowserRouter basename=''>
       <Routes>
         <Route path='/' element={<App />}/>
+        <Route path='/home' element={<UserHome />}/> 
         <Route path='/login' element={<Login />}/>
         <Route path='/signup' element={<SignUp />}/>
         <Route path='/signup/:username' element={<SignUp />}/>

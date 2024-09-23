@@ -38,6 +38,8 @@ const SignUp = (props) => {
             <input type="password" name="password" id="password" onChange={(e) => setPassword(e.target.value)}/>
 
             <button>Sign Up</button>
+
+            <p>Already have a login? Please <a href="/login">login.</a></p>
         </form>
     </div>
   )

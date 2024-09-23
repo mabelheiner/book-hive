@@ -1,11 +1,15 @@
 import React from 'react'
 import { useState } from 'react'
 import { loginUser } from '../components/addUser.mjs';
+import Home from './Home';
+import UserHome from './UserHome';
+import { useNavigate } from 'react-router-dom';
 
-const Login = (props) => {
+const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginMessage, setLoginMessage] = useState(null)
+  const navigate = useNavigate();
 
   async function login(e) {
     e.preventDefault();
@@ -13,7 +17,8 @@ const Login = (props) => {
     const result = await loginUser(username, password);
 
     if (result != 'User not found. Please try again.') {
-      window.location.href = `/addBook/${result._id}`;
+      console.log('result', result)
+      navigate(`/home/?user=${result._id}`)
     }
     else {
       setLoginMessage(result)
@@ -33,6 +38,7 @@ const Login = (props) => {
             <button>Login</button>
         </form>
         <p>Don't have a login? Please <a href='/signup'>register.</a></p>
+        <p>Want to continue as a <a href='/'>guest?</a></p>
     </div>
   )
 }

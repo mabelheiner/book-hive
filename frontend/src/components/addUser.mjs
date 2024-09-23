@@ -19,8 +19,9 @@ const checkUser = async (users, username, password) => {
         const checkUsername = users[index].username;
 
         if (checkUsername == username) {
-            const checkPassword = users[index].password;if (checkPassword == encryptedPassword) {
-                return 'User found', users[index];
+            const checkPassword = users[index].password;
+            if (checkPassword == encryptedPassword) {
+                return users[index];
             }
         }
     }
