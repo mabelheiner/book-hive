@@ -24,7 +24,7 @@ root.render(
         <Route path='/signup/:username' element={<SignUp />}/>
         <Route path='/search' element={<SearchBook />}/>
         <Route path='/addBook/:id' element={<AddBook />}/>
-        <Route path='/book/details/:book' element={<BookDetails />}></Route>
+        <Route path='/book/details' element={<BookDetails />}></Route>
 
       </Routes>
     </BrowserRouter>

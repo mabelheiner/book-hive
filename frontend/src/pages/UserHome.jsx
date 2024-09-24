@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
+import { getUser } from '../components/user.mjs';
+
 const UserHome = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -14,11 +16,9 @@ const UserHome = () => {
         try{
             const searchParams = new URLSearchParams(location.search)
             const userId = searchParams.get('user')
-            console.log('User id from url', userId)
 
             const user = await axios.get(`http://localhost:5000/users/${userId}`)
             const data = user.data;
-            console.log('Data received', data)
 
             setUser(data)
         } catch (error) {
@@ -33,10 +33,11 @@ const UserHome = () => {
 
     function searchBook(e) {
         e.preventDefault();
+        const encodeUser = encodeURIComponent(user._id);
         const encodeTitle = encodeURIComponent(title);
         const encodeAuthor = encodeURIComponent(author);
 
-        navigate(`/search?title=${encodeTitle}&author=${encodeAuthor}`);
+        navigate(`/search?user=${encodeUser}&title=${encodeTitle}&author=${encodeAuthor}`);
     }
   return (
     <div><header>

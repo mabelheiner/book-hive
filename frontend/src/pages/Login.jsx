@@ -5,6 +5,8 @@ import Home from './Home';
 import UserHome from './UserHome';
 import { useNavigate } from 'react-router-dom';
 
+import { setUser } from '../components/user.mjs'
+
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -17,8 +19,8 @@ const Login = () => {
     const result = await loginUser(username, password);
 
     if (result != 'User not found. Please try again.') {
-      console.log('result', result)
-      navigate(`/home/?user=${result._id}`)
+      setUser(result._id)
+      navigate(`/home/?user=${result._id}`)      
     }
     else {
       setLoginMessage(result)

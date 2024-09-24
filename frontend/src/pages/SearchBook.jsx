@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 const SearchBook = () => {
     const [books, setBooks] = useState([]);
     const [title, setTitle] = useState('');
     const [author, setAuthor] = useState('');
+    const [user, setUser] = useState('');
 
     const location = useLocation();
+    const navigate = useNavigate();
 
     if (title == null) {
       setTitle('')
@@ -21,14 +23,19 @@ const SearchBook = () => {
         const params = new URLSearchParams(location.search);
         const newTitle = decodeURIComponent(params.get('title'));
         const newAuthor = decodeURIComponent(params.get('author'));
+        const currentUser = decodeURIComponent(params.get('user'));
 
-        console.log('Information received:', 'title: ', newTitle, `\n`, "author: ", newAuthor)
+        console.log('Information received:', 'title: ', newTitle, `\n`, "author: ", newAuthor, 'user', currentUser)
 
         if (newTitle != "null") {
           setTitle(newTitle);
         }
         if (newAuthor != "null") {
           setAuthor(newAuthor);
+        }
+
+        if (currentUser != null) {
+          setUser(currentUser);
         }
 
         searchBook(newTitle, newAuthor);
@@ -118,7 +125,6 @@ const SearchBook = () => {
     }
 
     function displayAuthors(authors) {
-      console.log('Authors', authors);
       let authorList = ""
       
       for (const index in authors) {
@@ -140,6 +146,16 @@ const SearchBook = () => {
       }
     }
     
+    function goToBookDetails(book) {
+      const bookId = encodeURIComponent(book.id);
+      const encodeUser = encodeURIComponent(user);
+      if (user != "null") {
+        navigate(`/book/details?user=${encodeUser}&book=${bookId}`)
+      }
+      else {
+        navigate(`/book/details?book=${bookId}`)
+      }
+    }
 
   return (
     <>
@@ -156,7 +172,8 @@ const SearchBook = () => {
           <li key={index}>
             <img src={book.volumeInfo.imageLinks?.thumbnail} alt={book.volumeInfo.title}/>
             
-            <a href={`/book/details/${book.id}`}><p>{book.volumeInfo.title} </p></a><p>by <i>{displayAuthors(book.volumeInfo.authors)}</i></p>
+            <p>{book.volumeInfo.title} </p><p>by <i>{displayAuthors(book.volumeInfo.authors)}</i></p>
+            <button onClick={() => goToBookDetails(book)}>See more</button>
           </li>
         ))}
       </ul>

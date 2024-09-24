@@ -1,23 +1,32 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react'
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import StarRating from './StarRating';
 import './BookDetails.css'
+
+import { FaRegHeart, FaHeart } from "react-icons/fa6";
+
+import {getUser} from '../components/user.mjs'
 
 const BookDetails = () => {
     const [book, setBook] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [favorite, setFavorite] = useState(false);
+
+    const [user, setUser] = useState(getUser())
 
     const [more, setMore] = useState(false);
 
-    const bookDescription = useRef(null);
-
     const params = useParams()
+
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const fetchBook = useCallback(async () => {
         try {
-            const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${params.book}`);
+            const searchParams = new URLSearchParams(location.search);
+            const bookId = searchParams.get('book');
+            const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${bookId}`);
             const data = await response.json()
-            console.log('data', data.items[0])
             setBook(data.items[0])
             setLoading(false)            
         } catch (error) {
@@ -29,6 +38,13 @@ const BookDetails = () => {
     
     useEffect(() => {
         fetchBook();
+
+        try {
+            const searchParams = new URLSearchParams(location.search);
+            setUser(searchParams.get('user'))
+        } catch (error) {
+            setUser(null)
+        }
 
     }, [fetchBook])
 
@@ -68,9 +84,16 @@ const BookDetails = () => {
                     break
                 }
             }
-
-            console.log('Count', count)
             return displayDescription;
+        }
+    }
+
+    function handleFavorite() {
+        if (favorite == true) {
+            setFavorite(false)
+        }
+        else {
+            setFavorite(true)
         }
     }
 
@@ -78,10 +101,12 @@ const BookDetails = () => {
     <div>
         <h1>Book Details</h1>
         <img src={book.volumeInfo.imageLinks?.thumbnail} alt={book.volumeInfo.title}/>
+        {user != null ? <button onClick={handleFavorite}>{favorite ? <FaHeart /> : <FaRegHeart />}</button> :
+        <></>}
             
         <p>{book.volumeInfo.title} by <i>{displayAuthors(book.volumeInfo.authors)}</i></p>
         <StarRating rating={book.volumeInfo.averageRating}/>
-        <p>Description: {displayDescription(book.volumeInfo.description)} ... </p> 
+        <p>Description: {displayDescription(book.volumeInfo.description)}</p> 
         <button onClick={() => setMore(!more)}>See {more ? 'Less' : 'More'}</button>
     </div>
   )
