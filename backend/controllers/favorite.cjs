@@ -1,8 +1,9 @@
 const Favorite = require('../models/favorite.cjs');
 
 const getAll = async (req, res) => {
-    const favorites = await Book.find();
+    const favorites = await Favorite.find();
     res.setHeader('Content-Type', 'application/json')
+    res.json(favorites);
 }
 
 const getSingle = async (req, res) => {
