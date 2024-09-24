@@ -18,7 +18,7 @@ const Home = () => {
         navigate(`/search?title=${encodeTitle}&author=${encodeAuthor}`);
     }
   return (
-    <div>
+    <div> 
         <header>
             <h1>Welcome to Book Hive!</h1>
             <p>🐝<i>Just buzzzzzzzing about books!</i>🐝</p>

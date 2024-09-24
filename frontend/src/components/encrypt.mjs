@@ -3,6 +3,7 @@ const encryptNewPassword = (password) => {
     const alphabet_lower = 'abcdefghijklmnopqrstuvwxyz';
     const alphabet_higher = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const specialCharacters = " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+    const numbers = '0123456789';
 
     console.log('Original password', password);
     for (const letter in password) {
@@ -24,6 +25,10 @@ const encryptNewPassword = (password) => {
         else if (specialCharacters.includes(password[char])) {
             encryptedPassword += (specialCharacters[specialCharacters.indexOf(password[char]) + 3]);
         }
+
+        else if (numbers.includes(password[char])) {
+            encryptedPassword += (numbers[numbers.indexOf(password[char]) + 3]);
+        }
         else {
             console.log('Character', password[char])
             return console.error('invalid character in password')
@@ -40,6 +45,7 @@ const decryptPassword = (password) => {
     const alphabet_lower = 'abcdefghijklmnopqrstuvwxyz';
     const alphabet_higher = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const specialCharacters = " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+    const numbers = '0123456789';
 
     for (const char in password) {
 
@@ -55,6 +61,9 @@ const decryptPassword = (password) => {
         }
         else if (specialCharacters.includes(password[char])) {
             decryptedPassword += (specialCharacters[specialCharacters.indexOf(password[char]) - 3]);
+        }
+        else if (numbers.includes(password[char])) {
+            decryptedPassword += (numbers[numbers.indexOf(password[char]) + 3]);
         }
         else {
             console.log('Character', password[char])
